@@ -1,3 +1,7 @@
+/*********************************************
+functions as back-end interface between user and schema.
+**********************************************/
+
 const { MongoClient } = require('mongodb');
 const assert = require('assert'); //library that includes functions to throw an error if an expression passed into it is false.
 const mySchema = require('./schema/main');

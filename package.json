@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-plugin-relay": "^1.4.1",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
     "mongodb": "^2.2.33"
   }
 }
