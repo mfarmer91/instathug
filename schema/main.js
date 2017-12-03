@@ -30,12 +30,12 @@ const RhymesLibraryType = new GraphQLObjectType({
             type: new GraphQLList(RhymeType),
             description: 'A list of Thuggish rhymes in the database (db).',
             resolve: (_, args, { db }) =>
-                db.collection('rhymes').find.toArray()
+                db.collection('rhymes').find().toArray()
         }
     }
 }); //fragment for pulling Thug Rhyme Library.
 
-const QueryType = new GraphQLString({
+const queryType = new GraphQLObjectType({
     name: 'RootQuery',
     fields: {
         rhymesLibrary: {
@@ -47,7 +47,7 @@ const QueryType = new GraphQLString({
 }); //Root Query Type.
 
 const mySchema = new GraphQLSchema({
-    query: QueryType
+    query: queryType
 });
 
 module.exports = mySchema; // this is exported to index.js, where it's connted to mongodb.
