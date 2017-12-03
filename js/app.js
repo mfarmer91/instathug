@@ -8,26 +8,25 @@ class RhymesLibrary extends React.Component {
     render() {
         return (
             <div className="container">
-                {this.props.allQuotes.map(quote => 
-                    <Quote key={rhyme.id} rhyme={rhyme} />
+                {this.props.library.allRhymes.map(rhyme => 
+                    <Rhyme key={rhyme.id} rhyme={rhyme} />
                 )}
             </div> 
-        );
+        )
     }
 }
 
 RhymesLibrary = Relay.createContainer(RhymesLibrary, {
-    fragments: {
-        library: () => Relay.QL `
-            fragment AllRhymes on RhymesLibrary {
-                allRhymes {
-                    id 
-                    ${Rhyme.getFragment('rhyme')}
-                }
-            }
-
-        `
-    }
+  fragments: {
+    library: () => Relay.QL `
+      fragment AllRhymes on RhymesLibrary {
+        allRhymes {
+          id
+          ${Rhyme.getFragment('rhyme')}
+        }
+      }
+    `
+  }
 });
 
 class AppRoute extends Relay.Route {
@@ -46,7 +45,7 @@ class AppRoute extends Relay.Route {
 
 ReactDOM.render(
   <Relay.RootContainer
-    Component={Rhymes}
+    Component={RhymesLibrary}
     route={new AppRoute()}
   />,
   document.getElementById('react')
