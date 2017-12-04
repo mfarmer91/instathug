@@ -8,6 +8,13 @@ const {
     GraphQLEnumType
 } = require('graphql');
 
+const {
+  connectionDefinitions,
+  connectionArgs,
+  connectionFromArray,
+  connectionFromPromisedArray
+} = require('graphql-relay');
+
 const RhymeType = new GraphQLObjectType({
     name: 'Rhyme',
     fields: {
@@ -16,9 +23,14 @@ const RhymeType = new GraphQLObjectType({
             resolve: obj => obj._id
         },
         text: { type: GraphQLString },
-        song: { type: GraphQLString }
     }
-}); //fragment for pulling single Thug Rhyme.
+}); //fragment for pulling single Thug rhyme.
+
+const { connectionType: RhymesConnectionType } = 
+      connectionDefinitions({
+          name: 'Rhyme',
+          nodeType: RhymeType
+      });
 
 const rhymesLibrary = {}; //I think this is essentially functioning as state.
 
@@ -26,14 +38,16 @@ const rhymesLibrary = {}; //I think this is essentially functioning as state.
 const RhymesLibraryType = new GraphQLObjectType({
     name: 'RhymesLibrary',
     fields: {
-        allRhymes: {
-            type: new GraphQLList(RhymeType),
-            description: 'A list of Thuggish rhymes in the database (db).',
-            resolve: (_, args, { db }) =>
-                db.collection('rhymes').find().toArray()
+        rhymesConnection: {
+            type: RhymesConnectionType,
+            description: 'A list of thuggish rhymes in the database',
+            args: connectionArgs,
+            resolve: (_, args, { db }) => connectionFromPromisedArray(
+                db.collection('rhymes').find().toArray(), args
+            )
         }
     }
-}); //fragment for pulling Thug Rhyme Library.
+}); //fragment for pulling Thug rhyme library.
 
 const queryType = new GraphQLObjectType({
     name: 'RootQuery',

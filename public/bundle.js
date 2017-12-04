@@ -24569,9 +24569,9 @@ var RhymesLibrary = function (_React$Component) {
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                { className: 'container' },
-                this.props.library.allRhymes.map(function (rhyme) {
-                    return _react2.default.createElement(_rhyme2.default, { key: rhyme.id, rhyme: rhyme });
+                null,
+                this.props.library.rhymesConnection.edges.map(function (edge) {
+                    return _react2.default.createElement(_rhyme2.default, { key: edge.node.id, rhyme: edge.node });
                 })
             );
         }
@@ -24586,26 +24586,87 @@ RhymesLibrary = _reactRelay2.default.createContainer(RhymesLibrary, {
             return function (RQL_0) {
                 return {
                     children: [{
-                        children: [].concat.apply([], [{
-                            fieldName: 'id',
+                        calls: [{
+                            kind: 'Call',
+                            metadata: {},
+                            name: 'first',
+                            value: {
+                                kind: 'CallValue',
+                                callValue: 1
+                            }
+                        }],
+                        children: [{
+                            children: [{
+                                children: [].concat.apply([], [{
+                                    fieldName: 'id',
+                                    kind: 'Field',
+                                    metadata: {
+                                        isRequisite: true
+                                    },
+                                    type: 'String'
+                                }, _reactRelay2.default.QL.__frag(RQL_0)]),
+                                fieldName: 'node',
+                                kind: 'Field',
+                                metadata: {
+                                    canHaveSubselections: true,
+                                    isRequisite: true
+                                },
+                                type: 'Rhyme'
+                            }, {
+                                fieldName: 'cursor',
+                                kind: 'Field',
+                                metadata: {
+                                    isGenerated: true,
+                                    isRequisite: true
+                                },
+                                type: 'String'
+                            }],
+                            fieldName: 'edges',
                             kind: 'Field',
                             metadata: {
+                                canHaveSubselections: true,
+                                isPlural: true
+                            },
+                            type: 'RhymeEdge'
+                        }, {
+                            children: [{
+                                fieldName: 'hasNextPage',
+                                kind: 'Field',
+                                metadata: {
+                                    isGenerated: true,
+                                    isRequisite: true
+                                },
+                                type: 'Boolean'
+                            }, {
+                                fieldName: 'hasPreviousPage',
+                                kind: 'Field',
+                                metadata: {
+                                    isGenerated: true,
+                                    isRequisite: true
+                                },
+                                type: 'Boolean'
+                            }],
+                            fieldName: 'pageInfo',
+                            kind: 'Field',
+                            metadata: {
+                                canHaveSubselections: true,
+                                isGenerated: true,
                                 isRequisite: true
                             },
-                            type: 'String'
-                        }, _reactRelay2.default.QL.__frag(RQL_0)]),
-                        fieldName: 'allRhymes',
+                            type: 'PageInfo'
+                        }],
+                        fieldName: 'rhymesConnection',
                         kind: 'Field',
                         metadata: {
                             canHaveSubselections: true,
-                            isPlural: true
+                            isConnection: true
                         },
-                        type: 'Rhyme'
+                        type: 'RhymeConnection'
                     }],
                     id: _reactRelay2.default.QL.__id(),
                     kind: 'Fragment',
                     metadata: {},
-                    name: 'AllRhymes',
+                    name: 'App_LibraryRelayQL',
                     type: 'RhymesLibrary'
                 };
             }(_rhyme2.default.getFragment('rhyme'));
@@ -45981,6 +46042,7 @@ Rhyme = _reactRelay2.default.createContainer(Rhyme, {
     }
   }
 });
+//the key piece of information from above is the rhyme --note the lowercase -- fragment.  This is fed into the list of rhymes mapped in app.js
 
 exports.default = Rhyme;
 

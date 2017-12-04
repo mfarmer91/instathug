@@ -7,26 +7,30 @@ import Rhyme from './rhyme';
 class RhymesLibrary extends React.Component {
     render() {
         return (
-            <div className="container">
-                {this.props.library.allRhymes.map(rhyme => 
-                    <Rhyme key={rhyme.id} rhyme={rhyme} />
-                )}
-            </div> 
+            <div>
+                {this.props.library.rhymesConnection.edges.map(edge => 
+                    <Rhyme key={edge.node.id} rhyme={edge.node} />
+                 )}
+            </div>
         )
     }
 }
 
 RhymesLibrary = Relay.createContainer(RhymesLibrary, {
-  fragments: {
-    library: () => Relay.QL `
-      fragment AllRhymes on RhymesLibrary {
-        allRhymes {
-          id
-          ${Rhyme.getFragment('rhyme')}
+    fragments: {
+        library: () => Relay.QL `
+      fragment on RhymesLibrary {
+        rhymesConnection(first: 1) {
+          edges {
+            node {
+              id
+              ${Rhyme.getFragment('rhyme')}
+            }
+          }
         }
       }
     `
-  }
+    }
 });
 
 class AppRoute extends Relay.Route {

@@ -20,5 +20,7 @@ Rhyme = Relay.createContainer(Rhyme, {
         `
     }
 });
+//the key piece of information from above is the rhyme --note the lowercase -- fragment.  This is fed into the list of rhymes mapped in app.js
 
 export default Rhyme;
+
